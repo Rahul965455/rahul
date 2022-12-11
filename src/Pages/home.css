@@ -41,12 +41,12 @@
 }
 
 .btn-edit {
-  background-color: #008cba;
+  background-color: #008cba !important;
 }
 .btn-delete {
-  background-color: #f44336;
+  background-color: #f44336 !important;
 }
 .btn-view {
-  background-color: #e7e7e7;
-  color: black;
+  background-color: #e7e7e7 !important;
+  color: black !important;
 }

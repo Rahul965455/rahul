@@ -18,11 +18,13 @@ const Home = () => {
     }
   },[])
   const onDelete = (id) =>{
-if(window.confirm("sure")){
-  fireDb.child(`child/${id}`).remove((err)=>{
+    
+if(Object.keys(id)){
+  
+  fireDb.child(`contacts/${id}`).remove((err)=>{
     if(err){
-      toast.success("contact deleted")
-    }else{toast.success("contact del")}
+      toast.success("contact not deleted")
+    }else{toast.success("contact deleted")}
   })
 }
 
@@ -42,12 +44,12 @@ if(window.confirm("sure")){
         <tbody>
           {Object.keys(data).map((id,index)=>{
             return(
-              <tr key={id}>
+              <tr key={index}>
                 <th scope='row'>{index+1}</th>
                 <td>{data[id].name}</td>
                 <td>{data[id].email}</td>
                 <td>{data[id].contact}</td>
-                <td><NavLink to={`/update/${id}`}> <button className='btn btn-edit'>Edit</button></NavLink>
+                <td><NavLink to={`/edit`}> <button className='btn btn-edit'>Edit</button></NavLink>
                 <button className='btn btn-delete' onClick={()=>onDelete(id)}>Delete</button>
                 <NavLink to={`/view/${id}`}> <button className='btn btn-view'>View</button></NavLink>
                 </td>

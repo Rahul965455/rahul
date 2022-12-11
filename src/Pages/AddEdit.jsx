@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import fireDb from "../firebase";
 
+
 const initialState = {
   name: "",
   email: "",
@@ -29,6 +30,23 @@ const AddEdit = () => {
       setData({})
     }
   },[id]);
+
+
+  // useEffect(()=>{
+  //   fireDb.child(`contacts/${id}`).get().then((snapshot)=>{
+  //     console.log("11111111111snapshot",snapshot)
+  //     if(snapshot.exists()){
+  //       console.log("{...snapshot.val() }", {...snapshot.val() })
+        
+  //     }else{
+  //       console.log('maion to tut gya')
+  //     }
+  //   })
+  // },[id])
+  
+
+
+
   useEffect(()=>{
     if(id){
       setState({...data[id]})
@@ -37,27 +55,37 @@ const AddEdit = () => {
       setState({...initialState})
     }
   },[id,data])
+
   const handleInputChange = (e) => {
     const {name,value}=e.target;
     setState({...state,[name]:value})
   };
+
+
   const handleSubmit=(e)=>{
-    e.prevantDefault();
+    
+    e.preventDefault()  //error
     if(!name|| !email||!contact){
       toast.error("Please Provide Value In Each Input Field")
     }else{
-      if(!id){
+    
+     
+      if(Object.keys(id).length === 0){ //error
         fireDb.child("contacts").push(state,(err)=>{
+         
           if(err){
             toast.error(err);
-          }else(toast.success("contact added succesfully"))
+          }else   
+          {
+            toast.success("contact added succesfully")
+            setTimeout(()=>navigate("/Home"),500)
+          }//error
         });
+      }else{
+        console.log("not getting proper data")
       }
-    }{
-  
-      setTimeout(()=>navigate("/"),500)
     }
-
+    
   }
   return (
   
@@ -98,7 +126,7 @@ const AddEdit = () => {
           value={contact || ""}
           onChange={handleInputChange}
         ></input>
-        <input type="submit" value={id ? "Update":"Save"} />
+        <input type="submit" value={Object.keys(id).length > 0 ? "Update":"Save"} />
       </form>
     </div>
   );
